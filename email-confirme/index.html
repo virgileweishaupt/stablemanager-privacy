@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Stable Manager — Email confirmé</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+         font-family: -apple-system, system-ui, sans-serif; background: #FAFAF9; color: #16181D; padding: 24px 16px; }
+  .card { width: 100%; max-width: 440px; background: #FFFFFF; border: 1px solid #EDEEF0; border-radius: 20px;
+          padding: 40px 28px; text-align: center; }
+  .icon { width: 64px; height: 64px; border-radius: 999px; background: #FBEEDD; display: flex;
+          align-items: center; justify-content: center; margin: 0 auto 24px; }
+  .brand { font-size: 14px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; color: #A8570A; margin: 0 0 12px; }
+  h1 { font-size: 26px; line-height: 1.3; margin: 0 0 16px; }
+  p { font-size: 18px; line-height: 1.5; color: #4B5058; margin: 0; }
+  .error .icon { background: #FBEAE9; }
+</style>
+</head>
+<body>
+<main class="card" id="ok">
+  <div class="icon" aria-hidden="true">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#A8570A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+  </div>
+  <p class="brand">Stable Manager</p>
+  <h1>Merci d'avoir confirmé votre adresse email</h1>
+  <p>Vous pouvez maintenant retourner dans l'application et vous connecter.</p>
+</main>
+
+<main class="card error" id="error" hidden>
+  <div class="icon" aria-hidden="true">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C4302B" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+  </div>
+  <p class="brand">Stable Manager</p>
+  <h1>Ce lien n'est plus valide</h1>
+  <p>Il a peut-être déjà été utilisé ou a expiré. Essayez de vous connecter dans l'application : si votre adresse n'est pas confirmée, créez à nouveau votre compte pour recevoir un nouveau lien.</p>
+</main>
+
+<script>
+  // Supabase renvoie ici après le clic : jetons de session ou erreur (#error=…) dans l'adresse
+  var params = new URLSearchParams(location.hash.slice(1) || location.search.slice(1))
+  if (params.get('error') || params.get('error_code')) {
+    document.getElementById('ok').hidden = true
+    document.getElementById('error').hidden = false
+  }
+  // Ne pas laisser les jetons visibles dans la barre d'adresse
+  if (location.hash || location.search) history.replaceState(null, '', location.pathname)
+</script>
+</body>
+</html>
